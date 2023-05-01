@@ -26,11 +26,10 @@ private:
   {
     return (degrees / 180) * M_PI;
   }
-  float calculateDegrees(float distance)
+  float calculateAngle(float distance)
   {
     float circumference = 2 * M_PI * wheelRadius;
-    float degrees = distance / circumference;
-    return convertToRads(degrees);
+    return (distance / circumference) * (2 * M_PI);
   }
 
   int calculateSteps(float radians)
@@ -74,8 +73,15 @@ public:
   }
   void moveDistance(float distance)
   {
-    float degrees = calculateDegrees(distance);
-    moveDegrees(degrees);
+    float angle = calculateAngle(distance);
+    int steps = calculateSteps(angle);
+    moveSteps(steps);
+  }
+
+  int getSteps(float distance)
+  {
+    float angle = calculateAngle(distance);
+    return calculateSteps(angle);
   }
 
   void setSpeed(int speed)
