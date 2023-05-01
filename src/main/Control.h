@@ -1,8 +1,5 @@
 #include <stdint.h>
 
-
-
-
 class Control
 {
 private:
@@ -12,20 +9,17 @@ private:
     int (*digitalReadFunction)(uint8_t);
     int (*analogReadFunction)(uint8_t);
     void (*delayFunction)(long);
-    void (*servoSetSpeed)(long);
-    void (*servoStep)(int);
+    // void (*servoSetSpeed)(long);
+    // void (*servoStep)(int);
 
 public:
     Control(
-    void (*pinMode)(uint8_t, uint8_t), 
-    void (*digitalWrite)(uint8_t, uint8_t), 
-    void (*analogWrite)(uint8_t, int), 
-    int (*digitalRead)(uint8_t), 
-    int (*analogRead)(uint8_t), 
-    void (*delay)(long),
-    void (*servoSetSpeed)(long),
-    void (*servoStep)(int)
-    )
+        void (*pinMode)(uint8_t, uint8_t),
+        void (*digitalWrite)(uint8_t, uint8_t),
+        void (*analogWrite)(uint8_t, int),
+        int (*digitalRead)(uint8_t),
+        int (*analogRead)(uint8_t),
+        void (*delay)(long))
     {
         this->pinModeFunction = pinMode;
         this->digitalWriteFunction = digitalWrite;
@@ -33,8 +27,6 @@ public:
         this->digitalReadFunction = digitalRead;
         this->analogReadFunction = analogRead;
         this->delayFunction = delay;
-        this->servoSetSpeed=servoSetSpeed;
-        this->servoStep=servoStep;
     }
 
     void pinMode(uint8_t pin, uint8_t mode)
@@ -64,13 +56,6 @@ public:
     void delay(long time_ms)
     {
         this->delayFunction(time_ms);
-    }
-    void motorSetSpeed(long speed){
-        this->servoSetSpeed(speed);
-    }
-
-    void motorMoveSteps(int steps){
-        this->servoStep(steps);
     }
     Control() {}
 };
