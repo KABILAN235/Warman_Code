@@ -9,6 +9,7 @@ private:
     Servo servo;
     float span;
     float currentServoReading;
+    int speed;
 
 public:
     Rover(Motor leftMotor, Motor rightMotor, uint8_t servoPin, float span)
@@ -20,12 +21,15 @@ public:
         servo.attach(servoPin);
         this->servo = servo;
         this->currentServoReading = 0;
+        this->speed = 120;
     }
     Rover() {}
 
     void moveDistance(float distance)
     {
         int steps = leftMotor.getSteps(distance);
+        leftMotor.setSpeed(this->speed);
+        rightMotor.setSpeed(this->speed);
         for (int i = 0; i < abs(steps); i++)
         {
             if (steps > 0)
@@ -47,6 +51,8 @@ public:
         float circumference = 2 * M_PI * radius;
         float traverseDistance = (degrees / 360) * circumference;
         int steps = leftMotor.getSteps(traverseDistance);
+        leftMotor.setSpeed(this->speed);
+        rightMotor.setSpeed(this->speed);
         for (int i = 0; i < abs(steps); i++)
         {
             if (steps > 0)
@@ -68,8 +74,13 @@ public:
         this->servo.write(degrees);
     }
 
-    float getServoDegrees(float degrees)
+    float getServoDegrees()
     {
         return this->currentServoReading;
+    }
+
+    void setSpeed(int speed)
+    {
+        this->speed = speed;
     }
 };
